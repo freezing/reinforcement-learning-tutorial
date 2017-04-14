@@ -75,8 +75,7 @@ class State(object):
         
     def __is_out(self, field):
         np_field = np.array(field)
-        return not ( (np.array((0, 0)) <= np_field).all() 
-                    and (np_field <= np.array((self.height, self.width))).all() )
+        return not ( ( np_field >= (0, 0) ).all() and (np_field <= (self.height, self.width)).all() )
         
         
     def reward(self):
