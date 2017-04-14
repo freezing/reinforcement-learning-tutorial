@@ -29,6 +29,11 @@ class State(object):
 
         self.as_vector = self.state.reshape(1, height * width * 4)
 
+        self.player_loc = self.__find_location(PLAYER_IDX)
+        self.pit_loc = self.__find_location(PIT_IDX)
+        self.goal_loc = self.__find_location(GOAL_IDX)
+        self.wall_loc = self.__find_location(WALL_IDX)
+
     def __init_static(self):
         self.state = np.zeros((self.height, self.width, 4))
 
@@ -77,37 +82,28 @@ class State(object):
         return not ((np_field >= (0, 0)).all() and (np_field < (self.height, self.width)).all())
 
     def reward(self):
-        player_loc = self.__find_location(PLAYER_IDX)
-        pit_loc = self.__find_location(PIT_IDX)
-        goal_loc = self.__find_location(GOAL_IDX)
-
-        if player_loc == pit_loc:
-            return -10
-        elif player_loc == goal_loc:
-            return 10
+        if self.player_loc == self.pit_loc:
+            return -100
+        elif self.player_loc == self.goal_loc:
+            return 50
         else:
-            return -1
+            return -8
 
     def display_grid(self):
         grid = np.zeros((self.height, self.width), dtype='<U2')
 
-        player_loc = self.__find_location(PLAYER_IDX)
-        wall_loc = self.__find_location(WALL_IDX)
-        pit_loc = self.__find_location(PIT_IDX)
-        goal_loc = self.__find_location(GOAL_IDX)
+        if self.player_loc:
+            grid[self.player_loc] = 'P'
 
-        if player_loc:
-            grid[player_loc] = 'P'
-
-        if wall_loc:
-            grid[wall_loc] = 'W'
+        if self.wall_loc:
+            grid[self.wall_loc] = 'W'
 
         # TODO: Handle player is on Goal or Pit
-        if pit_loc:
-            grid[pit_loc] = '-'
+        if self.pit_loc:
+            grid[self.pit_loc] = '-'
 
-        if goal_loc:
-            grid[goal_loc] = '+'
+        if self.goal_loc:
+            grid[self.goal_loc] = '+'
 
         return grid
 

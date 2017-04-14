@@ -76,19 +76,25 @@ for epochId in range(0, epochs):
     if epsilon > 0.1:
         epsilon -= (1 / epochs)
 
-state = State()
 
-while (True):
-    print(state.display_grid())
+for _ in range(0, 1):
+    print("NEW TRY")
+    state = State()
+
+    while (True):
+        print(state.display_grid())
+        print()
+
+        if state.reward() != -1:
+            break
+
+        q_vals = model.predict(state.as_vector, batch_size=1)
+        print(q_vals)
+        action = np.argmax(q_vals)
+        state = state.run_action(action)
+        print("Action: " + str(action))
+
     print()
-
-    if state.reward() != -1:
-        break
-
-    q_vals = model.predict(state.as_vector, batch_size=1)
-    print(q_vals)
-    action = np.argmax(q_vals)
-    state = state.run_action(action)
-    print("Action: " + str(action))
-
+    print()
+    print()
 
