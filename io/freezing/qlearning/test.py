@@ -44,7 +44,7 @@ def run_epoch(model, gamma, epsilon):
 
         y[0][action] = update
 
-        model.fit(new_state.as_vector, y, batch_size=1, nb_epoch=1, verbose=0)
+        model.fit(state.as_vector, y, batch_size=1, nb_epoch=1, verbose=0)
         state = new_state
 
 
@@ -65,7 +65,7 @@ model.compile(loss='mse', optimizer=rms)
 # state = State()
 # prediction = model.predict(state.as_vector, batch_size = 1)
 
-epochs = 3000
+epochs = 1000
 epsilon = 1.0
 gamma = 0.9
 
