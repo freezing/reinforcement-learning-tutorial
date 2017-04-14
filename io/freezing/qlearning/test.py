@@ -21,9 +21,8 @@ def epsilon_greedy_action(state, qvals, epsilon):
 
 def run_epoch(model, gamma, epsilon):
     state = State()
-    is_terminal = False
 
-    while not is_terminal:
+    while not state.is_terminal():
         q_vals = model.predict(state.as_vector, batch_size=1)
         action = epsilon_greedy_action(state, q_vals, epsilon)
 
@@ -36,10 +35,9 @@ def run_epoch(model, gamma, epsilon):
 
         y = np.copy(q_vals)
         # TODO: Change this hack and use proper way to find terminal state
-        if reward == -1:
+        if not new_state.is_terminal():
             update = reward + gamma * max_q
         else:
-            is_terminal = True
             update = reward
 
         y[0][action] = update
@@ -85,7 +83,7 @@ for _ in range(0, 1):
         print(state.display_grid())
         print()
 
-        if state.reward() != -1:
+        if state.is_terminal():
             break
 
         q_vals = model.predict(state.as_vector, batch_size=1)

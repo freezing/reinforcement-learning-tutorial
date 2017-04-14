@@ -86,11 +86,11 @@ class State(object):
 
     def reward(self):
         if self.player_loc == self.pit_loc:
-            return -100
+            return -10
         elif self.player_loc == self.goal_loc:
-            return 50
+            return 5
         else:
-            return -8
+            return -1
 
     def display_grid(self):
         grid = np.zeros((self.height, self.width), dtype='<U2')
