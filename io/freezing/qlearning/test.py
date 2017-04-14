@@ -3,7 +3,7 @@
 from freezing.gridworld.state import State
 
 from keras.models import Sequential
-from keras.layers.core import Dense, Dropout, Activation
+from keras.layers.core import Dense, Activation
 from keras.optimizers import RMSprop
 
 
@@ -22,4 +22,7 @@ rms = RMSprop()
 model.compile(loss='mse', optimizer=rms)
 
 state = State()
-print(state.display_grid())
+
+prediction = model.predict(state.as_vector, batch_size = 1)
+
+print(prediction)

@@ -22,10 +22,12 @@ class State(object):
         self.height = height
         self.width = width
 
-        if (state is None):
+        if state is None:
             self.__init_static()
         else:
             self.state = state
+
+        self.as_vector = self.state.reshape(1, height * width * 4)
 
     def __init_static(self):
         self.state = np.zeros((self.height, self.width, 4))
@@ -38,7 +40,7 @@ class State(object):
     def __find_location(self, idx):
         for i in range(0, self.height):
             for j in range(0, self.width):
-                if (self.state[i, j][idx] == 1):
+                if self.state[i, j][idx] == 1:
                     return i, j
 
     def run_action(self, action):
@@ -61,7 +63,7 @@ class State(object):
         newState = np.zeros((self.height, self.width, 4))
         newState[:] = self.state[:]
 
-        if (self.__is_out(target_field) or (np.array(target_field) == wall_loc).all()):
+        if self.__is_out(target_field) or (np.array(target_field) == wall_loc).all():
             return State(newState)
 
         # Remove player
@@ -81,9 +83,9 @@ class State(object):
         pit_loc = self.__find_location(PIT_IDX)
         goal_loc = self.__find_location(GOAL_IDX)
 
-        if (player_loc == pit_loc):
+        if player_loc == pit_loc:
             return -10
-        elif (player_loc == goal_loc):
+        elif player_loc == goal_loc:
             return 10
         else:
             return 0
