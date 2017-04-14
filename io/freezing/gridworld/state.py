@@ -81,6 +81,9 @@ class State(object):
         np_field = np.array(field)
         return not ((np_field >= (0, 0)).all() and (np_field < (self.height, self.width)).all())
 
+    def is_terminal(self):
+        return self.player_loc == self.pit_loc or self.player_loc == self.goal_loc
+
     def reward(self):
         if self.player_loc == self.pit_loc:
             return -100
