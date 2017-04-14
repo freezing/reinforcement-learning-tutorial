@@ -49,6 +49,8 @@ class State(object):
             - Out of bounds: State doens't change
             - WALL: State doesn't change
             - Otherwise: Move player to the target field
+            
+        Returns new state, which represents the state after the action.
         """
         
         player_loc = self.__find_location(PLAYER_IDX)
