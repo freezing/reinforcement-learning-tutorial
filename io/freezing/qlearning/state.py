@@ -32,8 +32,16 @@ class State(object):
                     return i,j
         
     def reward(self):
-        player_loc = self.__find_location(PLAYER_ARRAY)
+        player_loc = self.__find_location(PLAYER_IDX)
+        pit_loc = self.__find_location(PIT_IDX)
+        goal_loc = self.__find_location(GOAL_IDX)
         
+        if (player_loc == pit_loc):
+            return -10
+        elif (player_loc == goal_loc):
+            return 10
+        else:
+            return 0
         
     def display_grid(self):
         grid = np.zeros((4, 4), dtype='<U2')
@@ -57,4 +65,3 @@ class State(object):
             grid[goal_loc] = '+'
             
         return grid
-    
