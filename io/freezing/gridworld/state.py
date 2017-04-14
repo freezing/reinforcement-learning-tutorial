@@ -59,24 +59,22 @@ class State(object):
 
         target_field = tuple(np.array(player_loc) + np.array(MOVES_ARRAY[action]))
 
-        #        newState = np.copy(self.state)
-        newState = np.zeros((self.height, self.width, 4))
-        newState[:] = self.state[:]
+        new_state = np.copy(self.state)
 
         if self.__is_out(target_field) or (np.array(target_field) == wall_loc).all():
-            return State(newState)
+            return State(new_state)
 
         # Remove player
-        newState[player_loc] = newState[player_loc] - PLAYER_ARRAY
+        new_state[player_loc] = new_state[player_loc] - PLAYER_ARRAY
 
         # Move it to the target field
-        newState[target_field] = newState[target_field] + PLAYER_ARRAY
+        new_state[target_field] = new_state[target_field] + PLAYER_ARRAY
 
-        return State(newState)
+        return State(new_state)
 
     def __is_out(self, field):
         np_field = np.array(field)
-        return not ((np_field >= (0, 0)).all() and (np_field <= (self.height, self.width)).all())
+        return not ((np_field >= (0, 0)).all() and (np_field < (self.height, self.width)).all())
 
     def reward(self):
         player_loc = self.__find_location(PLAYER_IDX)
@@ -88,7 +86,7 @@ class State(object):
         elif player_loc == goal_loc:
             return 10
         else:
-            return 0
+            return -1
 
     def display_grid(self):
         grid = np.zeros((self.height, self.width), dtype='<U2')
@@ -97,6 +95,13 @@ class State(object):
         wall_loc = self.__find_location(WALL_IDX)
         pit_loc = self.__find_location(PIT_IDX)
         goal_loc = self.__find_location(GOAL_IDX)
+
+        print("Player, Wall, Pit, Goal")
+        print (player_loc)
+        print(wall_loc)
+        print(pit_loc)
+        print(goal_loc)
+        print()
 
         if player_loc:
             grid[player_loc] = 'P'
@@ -112,3 +117,4 @@ class State(object):
             grid[goal_loc] = '+'
 
         return grid
+
