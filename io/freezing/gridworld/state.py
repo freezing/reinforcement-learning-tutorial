@@ -96,13 +96,6 @@ class State(object):
         pit_loc = self.__find_location(PIT_IDX)
         goal_loc = self.__find_location(GOAL_IDX)
 
-        print("Player, Wall, Pit, Goal")
-        print (player_loc)
-        print(wall_loc)
-        print(pit_loc)
-        print(goal_loc)
-        print()
-
         if player_loc:
             grid[player_loc] = 'P'
 

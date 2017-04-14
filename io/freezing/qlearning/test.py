@@ -19,7 +19,7 @@ def epsilon_greedy_action(state, qvals, epsilon):
         return np.argmax(qvals)
 
 
-def run_epoch(gamma, epsilon):
+def run_epoch(model, gamma, epsilon):
     state = State()
     is_terminal = False
 
@@ -65,4 +65,30 @@ model.compile(loss='mse', optimizer=rms)
 # state = State()
 # prediction = model.predict(state.as_vector, batch_size = 1)
 
-run_epoch(gamma=0.9, epsilon=0.1)
+epochs = 3000
+epsilon = 1.0
+gamma = 0.9
+
+for epochId in range(0, epochs):
+    print("Running epoch: " + str(epochId))
+    run_epoch(model, gamma, epsilon)
+
+    if epsilon > 0.1:
+        epsilon -= (1 / epochs)
+
+state = State()
+
+while (True):
+    print(state.display_grid())
+    print()
+
+    if state.reward() != -1:
+        break
+
+    q_vals = model.predict(state.as_vector, batch_size=1)
+    print(q_vals)
+    action = np.argmax(q_vals)
+    state = state.run_action(action)
+    print("Action: " + str(action))
+
+
