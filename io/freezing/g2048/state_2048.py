@@ -24,8 +24,8 @@ class State2048(object):
             self.width = WIDTH_2048
 
             self.__new_game()
-            self.__calculate_total_score()
 
+        self.__calculate_total_score()
         self.as_vector = self.tiles.reshape(1, self.height * self.width)
 
     def is_game_over(self):
@@ -182,7 +182,6 @@ class State2048(object):
         # Represents the index of the interesting column (that is the column of the tile that can be merged;
         # or the column of the most left empty field)
         last_idx = 0
-
         # NOTE: Starting from 1 (skipping first cell)
         for col in range(1, length):
             # Is there anything to move? Skip if not.
@@ -216,9 +215,14 @@ class State2048(object):
                     tiles_row[last_idx] = tiles_row[col]
                     tiles_row[col] = 0
                 else:
-                    assert last_idx + 1 == col
-                    last_idx += 1
+                    assert last_idx == col
 
+# st = np.zeros((4, 4), dtype=np.int)
+# st[0, 0] = 2
+# st[0, 1] = 1
+# st[0, 2] = 3
+# s = State2048(st)
+# s.run_action(0)
 #
 # s = State2048()
 # print(s.pretty_print())
