@@ -17,7 +17,7 @@ def play(strategy, game=None, allow_unavailable_actions=True, verbose=False):
 
         :arg verbose: If True, prints game states, scores, actions.
 
-        :return score, experience
+        :return score, experiences
             where score is the final score and experiences is the list of Experience instances.
     """
 

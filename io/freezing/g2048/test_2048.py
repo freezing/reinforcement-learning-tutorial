@@ -5,4 +5,4 @@ from freezing.g2048.player_2048 import *
 
 strategy = min_preference_strategy
 game = Game2048()
-play(strategy, game, verbose=True, allow_unavailable_actions=False)
+score, experiences = play(strategy, game, verbose=True, allow_unavailable_actions=False)
