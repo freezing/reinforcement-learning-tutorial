@@ -30,6 +30,7 @@ class State2048(object):
 
         self.tiles = np.array((self.height, self.width))
         self.__add_random_tile()
+        self.__add_random_tile()
 
     def __calculate_total_score(self):
         """Total score can be approximated from the current state only (i.e. no need to know the previous actions).
@@ -78,7 +79,9 @@ class State2048(object):
         # Runs the MOVE UP action in place
         State2048.__move_up(normalized_tiles)
 
-        return State2048(tiles=normalized_tiles)
+        state = State2048(tiles=normalized_tiles)
+        state.__add_random_tile()
+        return state
 
     def __add_random_tile(self):
         """Adds a random tile to the grid at random empty position.
