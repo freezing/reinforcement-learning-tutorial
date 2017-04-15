@@ -72,13 +72,19 @@ class State2048(object):
         
             :arg action - UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3
                 
-            :return New game state with applied action.
+            :return New game state after applied action.
                 
             Note: run_action includes some randomness, i.e. after action is executed, random empty field gets
                 a new tile. Tile 2 with probability 0.9 OR Tile 4 with probability 0.1.
         """
-        normalized_tiles = State2048.__rotate_left_90(self.tiles)
+        normalized_tiles = np.copy(self.tiles)
+        for _ in range(0, action):
+            normalized_tiles = State2048.__rotate_left_90(normalized_tiles)
+
+        # Runs the MOVE UP action in place
         State2048.__move_up(normalized_tiles)
+
+        return State2048(tiles=normalized_tiles)
 
     @staticmethod
     def __rotate_left_90(tiles):
