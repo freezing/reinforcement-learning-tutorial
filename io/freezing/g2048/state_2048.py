@@ -99,7 +99,7 @@ class State2048(object):
         State2048.__move_left(normalized_tiles)
 
         state = State2048(tiles=np.rot90(normalized_tiles, -action))
-        # state.__add_random_tile()
+        state.__add_random_tile()
         return state
 
     def __add_random_tile(self):
@@ -170,8 +170,14 @@ class State2048(object):
                 # We don't want to consider this anymore, move to the next cell
                 last_idx += 1
             else:
-                assert last_idx == col - 1
                 last_idx += 1
+
+                if tiles_row[last_idx] == 0:
+                    tiles_row[last_idx] = tiles_row[col]
+                    tiles_row[col] = 0
+                else:
+                    assert last_idx + 1 == col
+                    last_idx += 1
 
 
 s = State2048()
@@ -180,5 +186,17 @@ print()
 
 s1 = s.run_action(0)
 print(s1.pretty_print())
+print()
+
+s2 = s1.run_action(1)
+print(s2.pretty_print())
+print()
+
+s3 = s2.run_action(2)
+print(s3.pretty_print())
+print()
+
+s4 = s3.run_action(3)
+print(s3.pretty_print())
 print()
 
