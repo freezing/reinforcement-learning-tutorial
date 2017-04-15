@@ -15,15 +15,16 @@ class State2048(object):
         Tiles board field is empty, for K = 0.
     """
 
-    def __init__(self, height=HEIGHT_2048, width=WIDTH_2048, tiles=None):
-        self.height = height
-        self.width = width
-
-        if tiles:
+    def __init__(self, tiles=None):
+        if tiles is not None:
             self.tiles = tiles
+            self.height, self.width = tiles.shape[0], tiles.shape[1]
+        else:
+            self.height = WIDTH_2048
+            self.width = WIDTH_2048
 
-        self.__new_game()
-        self.__calculate_total_score()
+            self.__new_game()
+            self.__calculate_total_score()
 
     def __new_game(self):
         """Initializes the tiles board by setting one random field to 1."""
@@ -63,16 +64,19 @@ class State2048(object):
         def tile_string(value):
             """Convert value to string."""
             if value > 0:
-                return '% 5d'.format(2 ** value)
+                return '{: 5d}'.format(2 ** value)
             return '     '
 
-        horizontal_line = "-" * 5 * self.width
+        horizontal_line = "-" * (6 * self.width + 1)
+
         pretty_string = horizontal_line
 
         for row in range(self.height):
-            row_string = '|%s|'.format('|'.join([tile_string(v) for v in self.tiles[row, :]]))
-            pretty_string += '%s\n'.format(row_string)
+            values_string = '|'.join([tile_string(v) for v in self.tiles[row, :]])
+            row_string = '|{:s}|'.format(values_string)
 
+            pretty_string += '\n{:s}'.format(row_string)
+            pretty_string += '\n{:s}'.format(horizontal_line)
         return pretty_string
 
     def run_action(self, action):
@@ -94,8 +98,8 @@ class State2048(object):
         # Runs the MOVE LEFT action in place
         State2048.__move_left(normalized_tiles)
 
-        state = State2048(tiles=normalized_tiles)
-        state.__add_random_tile()
+        state = State2048(tiles=np.rot90(normalized_tiles, -action))
+        # state.__add_random_tile()
         return state
 
     def __add_random_tile(self):
@@ -157,6 +161,7 @@ class State2048(object):
             if tiles_row[last_idx] == 0:
                 # Empty - this is the next candidate for marge now, so don't increase last_idx
                 tiles_row[last_idx] = tiles_row[col]
+                tiles_row[col] = 0
             elif tiles_row[last_idx] == tiles_row[col]:
                 # Merge them
                 tiles_row[last_idx] += 1
@@ -171,4 +176,9 @@ class State2048(object):
 
 s = State2048()
 print(s.pretty_print())
+print()
+
+s1 = s.run_action(0)
+print(s1.pretty_print())
+print()
 
