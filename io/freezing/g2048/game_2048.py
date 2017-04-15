@@ -50,6 +50,12 @@ class Game2048(object):
         else:
             self._state = state
 
+    def state(self):
+        return self._state
+
+    def score(self):
+        return self._score
+
     def copy(self):
         """Returns a copy of itself."""
 
@@ -96,8 +102,8 @@ class Game2048(object):
 
         self._state[row_positions[empty_index], col_positions[empty_index]] = value
 
-    def pretty_print(self):
-        """Returns the human-readable representation of the state"""
+    def show(self):
+        """Returns the human-readable string representation of the state."""
 
         def tile_string(value):
             """Convert value to string."""
@@ -178,11 +184,11 @@ class Game2048(object):
 # s.run_action(0)
 #
 s = Game2048(seed=1234)
-print(s.pretty_print())
+print(s.show())
 print()
 
 for action in range(NUMBER_OF_ACTIONS):
     s.do_action(action)
     print(ACTION_NAMES[action])
-    print(s.pretty_print())
+    print(s.show())
     print()
