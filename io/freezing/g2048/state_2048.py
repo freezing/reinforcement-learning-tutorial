@@ -179,24 +179,24 @@ class State2048(object):
                     assert last_idx + 1 == col
                     last_idx += 1
 
-
-s = State2048()
-print(s.pretty_print())
-print()
-
-s1 = s.run_action(0)
-print(s1.pretty_print())
-print()
-
-s2 = s1.run_action(1)
-print(s2.pretty_print())
-print()
-
-s3 = s2.run_action(2)
-print(s3.pretty_print())
-print()
-
-s4 = s3.run_action(3)
-print(s3.pretty_print())
-print()
+#
+# s = State2048()
+# print(s.pretty_print())
+# print()
+#
+# s1 = s.run_action(0)
+# print(s1.pretty_print())
+# print()
+#
+# s2 = s1.run_action(1)
+# print(s2.pretty_print())
+# print()
+#
+# s3 = s2.run_action(2)
+# print(s3.pretty_print())
+# print()
+#
+# s4 = s3.run_action(3)
+# print(s3.pretty_print())
+# print()
 
