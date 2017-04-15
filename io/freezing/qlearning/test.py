@@ -132,11 +132,12 @@ for epochId in range(0, epochs):
 # TODO: Remove duplicate tests
 solved_tests = 0
 for i in range(0, tests):
-    print("NEW TRY: " + str(i))
     state = State()
 
     if try_solve(model, state, max_moves):
         solved_tests += 1
 
-print("Solved " + str(solved_tests) + " out of " + str(tests))
-print("Solved percentage: " + str(solved_tests * 100.0 / tests))
+solved_percentage = solved_tests * 100.0 / tests
+
+print('Solved {:d} out of {:d}'.format(solved_tests, tests))
+print('Solved percentage: {:.2f}%'.format(solved_percentage))
