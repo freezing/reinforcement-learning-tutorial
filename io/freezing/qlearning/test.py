@@ -9,14 +9,17 @@ from keras.optimizers import RMSprop
 import numpy as np
 import random
 
+
 def epsilon_greedy_action(state, qvals, epsilon):
-    # TODO: Refactor this later to make it more generic. At the moment state is not used and it should return available actions.
+    # TODO: Refactor this later to make it more generic. At the moment state is not used and it
+    # should return available actions.
     """Return random action with probability of epsilon, or the best action with probability of (1 - epsilon).
     """
     if np.random.random() < epsilon:
         return np.random.randint(0, 4)
     else:
         return np.argmax(qvals)
+
 
 def mini_batch_update(model, batch, alpha, gamma):
     X_train = []
@@ -45,7 +48,7 @@ def mini_batch_update(model, batch, alpha, gamma):
     X_train = np.array(X_train)
     Y_train = np.array(Y_train)
 
-    model.fit(X_train, Y_train, batch_size=batchSize, nb_epoch=1, verbose=0)
+    model.fit(X_train, Y_train, batch_size=batchSize, epochs=1, verbose=0)
 
 
 def run_epoch(model, alpha, gamma, epsilon, buffer_size, batch_size):
@@ -76,6 +79,20 @@ def run_epoch(model, alpha, gamma, epsilon, buffer_size, batch_size):
         state = new_state
 
 
+def try_solve(model, state, max_moves):
+    moves_played = 0
+    while moves_played < max_moves:
+        moves_played += 1
+
+        if state.is_terminal():
+            return state.is_win()
+
+        q_vals = model.predict(state.as_vector, batch_size=1)
+        action = np.argmax(q_vals)
+        state = state.run_action(action)
+
+    return False
+
 model = Sequential()
 
 model.add(Dense(164, kernel_initializer='lecun_uniform', input_shape=(64,)))
@@ -93,11 +110,10 @@ model.add(Activation('linear'))
 rms = RMSprop()
 model.compile(loss='mse', optimizer=rms)
 
-# state = State()
-# prediction = model.predict(state.as_vector, batch_size = 1)
 
-tests = 15
-epochs = 3000
+
+tests = 1500
+epochs = 500
 epsilon = 1.0
 alpha = 0.7
 gamma = 0.9
@@ -111,45 +127,14 @@ for epochId in range(0, epochs):
     if epsilon > 0.1:
         epsilon -= (1 / epochs)
 
-
+# TODO: Remove duplicate tests
+solved_tests = 0
 for i in range(0, tests):
     print("NEW TRY: " + str(i))
     state = State()
 
-    while True:
-        print(state.display_grid())
-        print()
+    if try_solve(model, state):
+        solved_tests += 1
 
-        if state.is_terminal():
-            break
-
-        q_vals = model.predict(state.as_vector, batch_size=1)
-        action = np.argmax(q_vals)
-        state = state.run_action(action)
-        print("Action: " + str(action))
-
-    print()
-    print()
-    print()
-
-
-# for _ in range(0, 2):
-#     s = State()
-#     print(s.display_grid())
-#     print()
-#
-#     s1 = s.run_action(0)
-#     print(s1.display_grid())
-#     print()
-#
-#     s2 = s1.run_action(2)
-#     print(s2.display_grid())
-#     print()
-#
-#     s3 = s2.run_action(0)
-#     print(s3.display_grid())
-#     print()
-#
-#
-#     print()
-#     print()
+print("Solved " + str(solved_tests) + " out of " + str(tests))
+print("Solved percentage: " + str(solved_tests * 100.0 / tests))

@@ -39,13 +39,13 @@ class State(object):
 
         positions = []
 
-        wall_pos = self.__find_random_position(positions)
+        wall_pos = self.__find_random_position(positions, (2, 2))
         positions.append(wall_pos)
 
-        pit_pos = self.__find_random_position(positions)
+        pit_pos = self.__find_random_position(positions, (1, 1))
         positions.append(pit_pos)
 
-        goal_pos = self.__find_random_position(positions)
+        goal_pos = self.__find_random_position(positions, (2, 3))
         positions.append(goal_pos)
 
         player_pos = self.__find_random_position(positions)
@@ -55,7 +55,10 @@ class State(object):
         self.state[goal_pos] = GOAL_ARRAY
         self.state[player_pos] = PLAYER_ARRAY
 
-    def __find_random_position(self, positions):
+    def __find_random_position(self, positions, forced_field=None):
+        if forced_field:
+            return forced_field
+
         while True:
             pr = np.random.randint(0, self.height)
             pc = np.random.randint(0, self.width)
@@ -104,8 +107,14 @@ class State(object):
         np_field = np.array(field)
         return not ((np_field >= (0, 0)).all() and (np_field < (self.height, self.width)).all())
 
+    def is_win(self):
+        return self.player_loc == self.goal_loc
+
+    def is_lose(self):
+        return self.player_loc == self.pit_loc
+
     def is_terminal(self):
-        return self.player_loc == self.pit_loc or self.player_loc == self.goal_loc
+        return self.is_win() or self.is_lose()
 
     def reward(self):
         if self.player_loc == self.pit_loc:
