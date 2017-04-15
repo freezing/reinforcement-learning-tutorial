@@ -29,11 +29,7 @@ class State2048(object):
         """Initializes the tiles board by setting one random field to 1."""
 
         self.tiles = np.array((self.height, self.width))
-
-        row = np.random.randint(0, self.height)
-        col = np.random.randint(0, self.width)
-
-        self.tiles[row, col] = 1
+        self.__add_random_tile()
 
     def __calculate_total_score(self):
         """Total score can be approximated from the current state only (i.e. no need to know the previous actions).
@@ -83,6 +79,20 @@ class State2048(object):
         State2048.__move_up(normalized_tiles)
 
         return State2048(tiles=normalized_tiles)
+
+    def __add_random_tile(self):
+        """Adds a random tile to the grid at random empty position.
+           
+           Tile 2 is added with probability 0.9.
+           Tile 4 is added with probability 0.1.
+        """
+        row_positions, col_positions = np.where(self.tiles == 0)
+        assert len(row_positions) > 0
+
+        empty_index = np.random.choice(len(row_positions))
+        tile_value = np.random.choice([1, 2], p=[0.9, 0.1])
+
+        self.tiles[row_positions[empty_index], col_positions[empty_index]] = tile_value
 
     @staticmethod
     def __move_up(tiles):
