@@ -80,19 +80,27 @@ def run_epoch(model, alpha, gamma, epsilon, buffer_size, batch_size):
         state = new_state
 
 
-def try_solve(model, state, max_moves):
-    moves_played = 0
-    while moves_played < max_moves:
-        moves_played += 1
+def print_game(game):
+    print(game.pretty_print())
+    print()
 
-        if state.is_terminal():
-            return state.is_win()
 
-        q_vals = model.predict(state.as_vector, batch_size=1)
-        action = np.argmax(q_vals)
-        state = state.run_action(action)
+def print_action(action):
+    ACTION_STRINGS = ['LEFT', 'UP', 'RIGHT', 'DOWN']
+    print(ACTION_STRINGS[action])
 
-    return False
+
+def play_new_game(model):
+    game = State2048()
+    print_game(game)
+
+    while not game.is_game_over():
+        q_vals = model.predict(game.as_vector, batch_size=1)
+        best_action = np.argmax(q_vals)
+        game = game.run_action(best_action)
+        print_game(game)
+
+    return game.reward()
 
 model = Sequential()
 # TODO: How to add convolutional layer
@@ -113,7 +121,7 @@ rms = RMSprop()
 model.compile(loss='mse', optimizer=rms)
 
 
-tests = 0
+tests = 1
 
 epochs = 1000
 epsilon = 1.0
@@ -129,18 +137,14 @@ for epochId in range(0, epochs):
     if epsilon > 0.1:
         epsilon -= (1 / epochs)
 
-# TODO: Remove duplicate tests
-solved_tests = 0
+
+scores = []
+
 for i in range(0, tests):
     if i % 100 == 0:
         print('Running test #{:d}', i)
 
-    state = State2048
+    scores.append(play_new_game(model))
 
-    if try_solve(model, state, max_moves):
-        solved_tests += 1
-
-solved_percentage = solved_tests * 100.0 / tests
-
-print('Solved {:d} out of {:d}'.format(solved_tests, tests))
-print('Solved percentage: {:.2f}%'.format(solved_percentage))
+print("Achieved scores")
+print(scores)

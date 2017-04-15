@@ -30,7 +30,7 @@ class State2048(object):
 
     def is_game_over(self):
         """Checks if there are any available moves"""
-        return len(self.available_actions()) > 0
+        return len(self.available_actions()) == 0
 
     def available_actions(self):
         actions = []
