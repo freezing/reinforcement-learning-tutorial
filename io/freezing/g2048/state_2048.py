@@ -28,7 +28,7 @@ class State2048(object):
     def __new_game(self):
         """Initializes the tiles board by setting one random field to 1."""
 
-        self.tiles = np.array((self.height, self.width))
+        self.tiles = np.zeros((self.height, self.width), dtype=np.int)
         self.__add_random_tile()
         self.__add_random_tile()
 
@@ -168,4 +168,7 @@ class State2048(object):
                 assert last_idx == col - 1
                 last_idx += 1
 
+
+s = State2048()
+print(s.pretty_print())
 
