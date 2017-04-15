@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="9c12cedf-51ba-4412-9298-5f275db5e0b5" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/io/freezing/g2048/game_2048.py" afterPath="$PROJECT_DIR$/io/freezing/g2048/game_2048.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/io/freezing/g2048/test_2048.py" afterPath="$PROJECT_DIR$/io/freezing/g2048/test_2048.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -50,16 +49,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/io/freezing/qlearning/test.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="720">
-              <caret line="48" column="37" selection-start-line="48" selection-start-column="37" selection-end-line="48" selection-end-column="37" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="state_2048.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/io/freezing/g2048/state_2048.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -70,11 +59,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="game_2048.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="game_2048.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/io/freezing/g2048/game_2048.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="329">
-              <caret line="89" column="29" selection-start-line="89" selection-start-column="29" selection-end-line="89" selection-end-column="29" />
+            <state relative-caret-position="383">
+              <caret line="92" column="0" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
               <folding>
                 <element signature="e#170#188#0" expanded="true" />
               </folding>
@@ -82,11 +71,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test_2048.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="test_2048.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/io/freezing/g2048/test_2048.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+            <state relative-caret-position="108">
+              <caret line="6" column="17" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
               <folding>
                 <element signature="e#26#68#0" expanded="true" />
               </folding>
@@ -97,8 +86,8 @@
       <file leaf-file-name="player_2048.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/io/freezing/g2048/player_2048.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+            <state relative-caret-position="346">
+              <caret line="39" column="58" selection-start-line="39" selection-start-column="58" selection-end-line="39" selection-end-column="58" />
               <folding>
                 <element signature="e#93#171#0" expanded="true" />
               </folding>
@@ -200,8 +189,8 @@
         <option value="$PROJECT_DIR$/io/freezing/g2048/experience_2048.py" />
         <option value="$PROJECT_DIR$/io/freezing/g2048/strategy_2048.py" />
         <option value="$PROJECT_DIR$/io/freezing/g2048/player_2048.py" />
-        <option value="$PROJECT_DIR$/io/freezing/g2048/test_2048.py" />
         <option value="$PROJECT_DIR$/io/freezing/g2048/game_2048.py" />
+        <option value="$PROJECT_DIR$/io/freezing/g2048/test_2048.py" />
       </list>
     </option>
   </component>
@@ -670,7 +659,7 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32961932" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32970026" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41225627" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41225627" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3277623" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -701,13 +690,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/io/freezing/g2048/player_2048.py</url>
-          <line>31</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-      </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
@@ -836,16 +818,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/io/freezing/qlearning/q2048/rl2048.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1051">
-          <caret line="75" column="17" selection-start-line="75" selection-start-column="17" selection-end-line="75" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#47#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/io/freezing/g2048/state_2048.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="143">
@@ -888,30 +860,40 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/io/freezing/g2048/player_2048.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+        <state relative-caret-position="346">
+          <caret line="39" column="58" selection-start-line="39" selection-start-column="58" selection-end-line="39" selection-end-column="58" />
           <folding>
             <element signature="e#93#171#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/io/freezing/g2048/test_2048.py">
+    <entry file="file://$PROJECT_DIR$/io/freezing/g2048/game_2048.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+        <state relative-caret-position="383">
+          <caret line="92" column="0" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
           <folding>
-            <element signature="e#26#68#0" expanded="true" />
+            <element signature="e#170#188#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/io/freezing/g2048/game_2048.py">
+    <entry file="file://$PROJECT_DIR$/io/freezing/qlearning/q2048/rl2048.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="89" column="29" selection-start-line="89" selection-start-column="29" selection-end-line="89" selection-end-column="29" />
+        <state relative-caret-position="1051">
+          <caret line="75" column="17" selection-start-line="75" selection-start-column="17" selection-end-line="75" selection-end-column="17" />
           <folding>
-            <element signature="e#170#188#0" expanded="true" />
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/io/freezing/g2048/test_2048.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="6" column="17" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
+          <folding>
+            <element signature="e#26#68#0" expanded="true" />
           </folding>
         </state>
       </provider>
