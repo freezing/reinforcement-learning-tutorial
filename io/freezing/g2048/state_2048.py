@@ -59,3 +59,67 @@ class State2048(object):
     def reward(self):
         """Reward is the total score of the current state."""
         return self.total_score
+
+    # TODO: Improve performance
+    def run_action(self, action):
+        """Runs the given action for the current state of the game.
+        
+            It's implemented by calling rotate matrix by 90 degrees (counter-clockwise / left) # of times per action. 
+            After that, we apply MOVE UP method.
+            Finally, rotate the matrix in the original state, which is (4 - action) % 4 times.
+            
+            Performance can be improved., but it's not priority at the moment.
+        
+            :arg action - UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3
+                
+            :return New game state with applied action.
+                
+            Note: run_action includes some randomness, i.e. after action is executed, random empty field gets
+                a new tile. Tile 2 with probability 0.9 OR Tile 4 with probability 0.1.
+        """
+        normalized_tiles = State2048.__rotate_left_90(self.tiles)
+        State2048.__move_up(normalized_tiles)
+
+    @staticmethod
+    def __rotate_left_90(tiles):
+        """Rotates the square matrix of tiles by 90 degrees counter-clockwise.
+           It doesn't change the tiles in place, it returns new matrix instead.
+           It's immutable.
+        
+           :arg tiles - matrix to rotate, represented as np.array((size, size))
+                
+           :return Copy of the rotated matrix.
+        """
+
+        # Transpose the matrix
+        # Flip rows
+        # The above two actions yield in the rotation by 90 degrees counter-clockwise
+
+        rotated_tiles = np.copy(tiles)
+        size = rotated_tiles.shape[0]
+        assert rotated_tiles.shape[0] == rotated_tiles.shape[1]
+
+        # Transpose
+        for i in range(0, size):
+            for j in range(0, i):
+                tmp = rotated_tiles[i, j]
+                rotated_tiles[i, j] = rotated_tiles[j, i]
+                rotated_tiles[j, i] = tmp
+
+        # Flip rows
+        i = 0
+        j = size - 1
+        while i < j:
+            tmp = rotated_tiles[i]
+            rotated_tiles[i] = rotated_tiles[j]
+            rotated_tiles[j] = tmp
+
+            i += 1
+            j -= 1
+
+        return rotated_tiles
+
+    @staticmethod
+    def __move_up(tiles):
+        return np.copy(tiles)
+
