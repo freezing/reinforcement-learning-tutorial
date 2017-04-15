@@ -26,6 +26,23 @@ class State2048(object):
             self.__new_game()
             self.__calculate_total_score()
 
+        self.as_vector = self.tiles.reshape(self.height * self.width,)
+
+    def is_game_over(self):
+        """Checks if there are any available moves"""
+        return len(self.available_actions()) > 0
+
+    def available_actions(self):
+        actions = []
+        for action in range(4):
+            if self.__is_available_action(action):
+                actions.append(action)
+        return actions
+
+    def __is_available_action(self, action):
+        rotated = np.rot90(self.tiles, action)
+        return State2048.__is_available_left(rotated)
+
     def __new_game(self):
         """Initializes the tiles board by setting one random field to 1."""
 
@@ -93,6 +110,9 @@ class State2048(object):
             Note: run_action includes some randomness, i.e. after action is executed, random empty field gets
                 a new tile. Tile 2 with probability 0.9 OR Tile 4 with probability 0.1.
         """
+        if not self.__is_available_action(action):
+            return self
+
         normalized_tiles = np.rot90(self.tiles, action)
 
         # Runs the MOVE LEFT action in place
@@ -115,6 +135,26 @@ class State2048(object):
         tile_value = np.random.choice([1, 2], p=[0.9, 0.1])
 
         self.tiles[row_positions[empty_index], col_positions[empty_index]] = tile_value
+
+    @staticmethod
+    def __is_available_left(tiles):
+        """Checks if LEFT is valid move (it will change the state)."""
+        height, width = tiles.shape[0], tiles.shape[1]
+
+        for row in range(height):
+            empty_found = False
+            for col in range(width):
+                empty_found |= tiles[row][col] == 0
+
+                # Check move to the empty cell
+                if empty_found and tiles[row][col] != 0:
+                    return True
+
+                # Check merge
+                if col > 0 and tiles[row][col] != 0 and tiles[row][col - 1] == tiles[row][col]:
+                    return True
+
+        return False
 
     @staticmethod
     def __move_left(tiles):
