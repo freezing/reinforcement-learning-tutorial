@@ -26,7 +26,7 @@ class State2048(object):
             self.__new_game()
             self.__calculate_total_score()
 
-        self.as_vector = self.tiles.reshape(self.height * self.width,)
+        self.as_vector = self.tiles.reshape(1, self.height * self.width)
 
     def is_game_over(self):
         """Checks if there are any available moves"""

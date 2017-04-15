@@ -9,6 +9,7 @@ import random
 
 # TODO: Make it generic
 INPUT_SIZE = 16
+ACTION_SIZE = 4
 
 
 def epsilon_greedy_action(state, qvals, epsilon):
@@ -17,7 +18,7 @@ def epsilon_greedy_action(state, qvals, epsilon):
     """Return random action with probability of epsilon, or the best action with probability of (1 - epsilon).
     """
     if np.random.random() < epsilon:
-        return np.random.randint(0, 4)
+        return np.random.randint(0, ACTION_SIZE)
     else:
         return np.argmax(qvals)
 
@@ -44,7 +45,7 @@ def mini_batch_update(model, batch, alpha, gamma):
         y[0][action] = update
 
         X_train.append(old_state.as_vector.reshape(INPUT_SIZE,))
-        Y_train.append(y.reshape(4,))
+        Y_train.append(y.reshape(ACTION_SIZE,))
 
     X_train = np.array(X_train)
     Y_train = np.array(Y_train)
