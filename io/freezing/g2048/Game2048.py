@@ -39,9 +39,9 @@ class Game2048(object):
         self._score = initial_score
 
         if seed is None:
-            self._random = RandomState(seed=seed)
-        else:
             self._random = RandomState()
+        else:
+            self._random = RandomState(seed=seed)
 
         if state is None:
             self._state = np.zeros((DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE), dtype=np.int)
@@ -177,12 +177,12 @@ class Game2048(object):
 # s = State2048(st)
 # s.run_action(0)
 #
-# s = Game2048()
-# print(s.pretty_print())
-# print()
-#
-# for action in range(NUMBER_OF_ACTIONS):
-#     s.do_action(action)
-#     print(ACTION_NAMES[action])
-#     print(s.pretty_print())
-#     print()
+s = Game2048(seed=1234)
+print(s.pretty_print())
+print()
+
+for action in range(NUMBER_OF_ACTIONS):
+    s.do_action(action)
+    print(ACTION_NAMES[action])
+    print(s.pretty_print())
+    print()
