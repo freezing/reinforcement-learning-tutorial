@@ -113,6 +113,8 @@ model.compile(loss='mse', optimizer=rms)
 
 
 tests = 1500
+max_moves = 10
+
 epochs = 500
 epsilon = 1.0
 alpha = 0.7
@@ -133,7 +135,7 @@ for i in range(0, tests):
     print("NEW TRY: " + str(i))
     state = State()
 
-    if try_solve(model, state):
+    if try_solve(model, state, max_moves):
         solved_tests += 1
 
 print("Solved " + str(solved_tests) + " out of " + str(tests))
