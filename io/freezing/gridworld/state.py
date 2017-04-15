@@ -109,9 +109,9 @@ class State(object):
 
     def reward(self):
         if self.player_loc == self.pit_loc:
-            return -10
+            return -100
         elif self.player_loc == self.goal_loc:
-            return 10
+            return 100
         else:
             return -1
 
