@@ -19,7 +19,7 @@ def epsilon_greedy_action(state, qvals, epsilon):
         return np.argmax(qvals)
 
 
-def run_epoch(model, gamma, epsilon):
+def run_epoch(model, alpha, gamma, epsilon):
     state = State()
 
     while not state.is_terminal():
@@ -29,14 +29,15 @@ def run_epoch(model, gamma, epsilon):
         new_state = state.run_action(action)
         reward = new_state.reward()
 
-        # TODO: Play with formula, use alpha (learning rate and expected value instead of max?)
         new_q = model.predict(new_state.as_vector, batch_size=1)
         max_q = np.max(new_q)
 
         y = np.copy(q_vals)
-        # TODO: Change this hack and use proper way to find terminal state
+
+        # TODO: Play with formula, use alpha (learning rate and expected value instead of max?)
+        update = y[0][action];
         if not new_state.is_terminal():
-            update = reward + gamma * max_q
+            update = update + alpha * (reward + gamma * max_q - update)
         else:
             update = reward
 
@@ -48,10 +49,10 @@ def run_epoch(model, gamma, epsilon):
 
 model = Sequential()
 
-model.add(Dense(164, kernel_initializer='lecun_uniform', input_shape=(64,)))
+model.add(Dense(264, kernel_initializer='lecun_uniform', input_shape=(64,)))
 model.add(Activation('relu'))
 
-model.add(Dense(150, kernel_initializer='lecun_uniform'))
+model.add(Dense(250, kernel_initializer='lecun_uniform'))
 model.add(Activation('relu'))
 
 model.add(Dense(4, kernel_initializer='lecun_uniform'))
@@ -63,23 +64,25 @@ model.compile(loss='mse', optimizer=rms)
 # state = State()
 # prediction = model.predict(state.as_vector, batch_size = 1)
 
-epochs = 1000
+tests = 15
+epochs = 3000
 epsilon = 1.0
+alpha = 0.7
 gamma = 0.9
 
 for epochId in range(0, epochs):
     print("Running epoch: " + str(epochId))
-    run_epoch(model, gamma, epsilon)
+    run_epoch(model, alpha, gamma, epsilon)
 
     if epsilon > 0.1:
         epsilon -= (1 / epochs)
 
 
-for _ in range(0, 1):
-    print("NEW TRY")
+for i in range(0, tests):
+    print("NEW TRY: " + str(i))
     state = State()
 
-    while (True):
+    while True:
         print(state.display_grid())
         print()
 
@@ -87,7 +90,6 @@ for _ in range(0, 1):
             break
 
         q_vals = model.predict(state.as_vector, batch_size=1)
-        print(q_vals)
         action = np.argmax(q_vals)
         state = state.run_action(action)
         print("Action: " + str(action))
@@ -96,3 +98,24 @@ for _ in range(0, 1):
     print()
     print()
 
+
+# for _ in range(0, 2):
+#     s = State()
+#     print(s.display_grid())
+#     print()
+#
+#     s1 = s.run_action(0)
+#     print(s1.display_grid())
+#     print()
+#
+#     s2 = s1.run_action(2)
+#     print(s2.display_grid())
+#     print()
+#
+#     s3 = s2.run_action(0)
+#     print(s3.display_grid())
+#     print()
+#
+#
+#     print()
+#     print()

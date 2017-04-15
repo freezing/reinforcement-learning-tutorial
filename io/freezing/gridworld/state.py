@@ -37,10 +37,33 @@ class State(object):
     def __init_static(self):
         self.state = np.zeros((self.height, self.width, 4))
 
-        self.state[0, 1] = PLAYER_ARRAY
-        self.state[2, 2] = WALL_ARRAY
-        self.state[1, 1] = PIT_ARRAY
-        self.state[3, 3] = GOAL_ARRAY
+        positions = []
+
+        wall_pos = self.__find_random_position(positions)
+        positions.append(wall_pos)
+
+        pit_pos = self.__find_random_position(positions)
+        positions.append(pit_pos)
+
+        goal_pos = self.__find_random_position(positions)
+        positions.append(goal_pos)
+
+        player_pos = self.__find_random_position(positions)
+
+        self.state[wall_pos] = WALL_ARRAY
+        self.state[pit_pos] = PIT_ARRAY
+        self.state[goal_pos] = GOAL_ARRAY
+        self.state[player_pos] = PLAYER_ARRAY
+
+    def __find_random_position(self, positions):
+        while True:
+            pr = np.random.randint(0, self.height)
+            pc = np.random.randint(0, self.width)
+
+            if (pr, pc) in positions:
+                continue
+
+            return pr, pc
 
     def __find_location(self, idx):
         for i in range(0, self.height):
@@ -88,7 +111,7 @@ class State(object):
         if self.player_loc == self.pit_loc:
             return -10
         elif self.player_loc == self.goal_loc:
-            return 5
+            return 10
         else:
             return -1
 
