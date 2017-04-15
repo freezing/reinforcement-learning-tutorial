@@ -7,7 +7,7 @@ WALL_IDX = 2
 PIT_IDX = 1
 GOAL_IDX = 0
 
-BOARD_SIZE = 4
+BOARD_SIZE = 7
 
 PLAYER_ARRAY = np.array([0, 0, 0, 1])
 WALL_ARRAY = np.array([0, 0, 1, 0])

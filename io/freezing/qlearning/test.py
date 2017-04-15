@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from freezing.gridworld.state import State
+from freezing.gridworld.state import BOARD_SIZE
 
 from keras.models import Sequential
 from keras.layers.core import Dense, Activation
@@ -8,6 +9,8 @@ from keras.optimizers import RMSprop
 
 import numpy as np
 import random
+
+INPUT_SIZE = BOARD_SIZE * BOARD_SIZE * 4
 
 
 def epsilon_greedy_action(state, qvals, epsilon):
@@ -42,7 +45,7 @@ def mini_batch_update(model, batch, alpha, gamma):
 
         y[0][action] = update
 
-        X_train.append(old_state.as_vector.reshape(64,))
+        X_train.append(old_state.as_vector.reshape(INPUT_SIZE,))
         Y_train.append(y.reshape(4,))
 
     X_train = np.array(X_train)
@@ -95,7 +98,7 @@ def try_solve(model, state, max_moves):
 
 model = Sequential()
 
-model.add(Dense(164, kernel_initializer='lecun_uniform', input_shape=(64,)))
+model.add(Dense(164, kernel_initializer='lecun_uniform', input_shape=(INPUT_SIZE,)))
 model.add(Activation('relu'))
 
 model.add(Dense(150, kernel_initializer='lecun_uniform'))
@@ -112,10 +115,10 @@ model.compile(loss='mse', optimizer=rms)
 
 
 
-tests = 1500
-max_moves = 10
+tests = 5000
+max_moves = 30
 
-epochs = 500
+epochs = 1000
 epsilon = 1.0
 alpha = 0.7
 gamma = 0.9
@@ -132,6 +135,9 @@ for epochId in range(0, epochs):
 # TODO: Remove duplicate tests
 solved_tests = 0
 for i in range(0, tests):
+    if i % 100 == 0:
+        print('Running test #{:d}', i)
+
     state = State()
 
     if try_solve(model, state, max_moves):
