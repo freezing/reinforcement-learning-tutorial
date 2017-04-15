@@ -5,6 +5,7 @@
 """
 
 import numpy as np
+from numpy.random import RandomState
 
 DEFAULT_BOARD_SIZE = 4
 NUMBER_OF_ACTIONS = 4
@@ -23,14 +24,24 @@ class Game2048(object):
     and its values are 0 for empty fields and log_2(value) for any tiles.
     """
 
-    def __init__(self, state=None, initial_score=0):
+    def __init__(self, state=None, initial_score=0, seed=None):
         """Initialize the Game2048 object.
 
         :arg state: (4, 4) numpy array to initialize the state with. If None, the game will be initialized with
                 two random tiles.
+
+        :arg seed: int, array like or optional, used to initialize RandomState.
+            Must be convertible to 32 bit unsigned int.
+
         :arg: initial_score: score to initialize the game with.
         """
+
         self._score = initial_score
+
+        if seed is None:
+            self._random = RandomState(seed=seed)
+        else:
+            self._random = RandomState()
 
         if state is None:
             self._state = np.zeros((DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE), dtype=np.int)
@@ -80,8 +91,8 @@ class Game2048(object):
         row_positions, col_positions = np.where(self._state == 0)
         assert len(row_positions) > 0
 
-        empty_index = np.random.choice(len(row_positions))
-        value = np.random.choice([1, 2], p=[0.9, 0.1])
+        empty_index = self._random.choice(len(row_positions))
+        value = self._random.choice([1, 2], p=[0.9, 0.1])
 
         self._state[row_positions[empty_index], col_positions[empty_index]] = value
 
