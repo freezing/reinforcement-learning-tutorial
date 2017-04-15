@@ -175,20 +175,3 @@ class Game2048(object):
                         state[row, col] = 0
 
         return reward
-
-# st = np.zeros((4, 4), dtype=np.int)
-# st[0, 0] = 2
-# st[0, 1] = 1
-# st[0, 2] = 3
-# s = State2048(st)
-# s.run_action(0)
-#
-# s = Game2048(seed=1234)
-# print(s.show())
-# print()
-#
-# for action in range(NUMBER_OF_ACTIONS):
-#     s.do_action(action)
-#     print(ACTION_NAMES[action])
-#     print(s.show())
-#     print()

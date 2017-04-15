@@ -1,7 +1,6 @@
 """A high level implementation of the play method that runs a strategy against the game."""
 
-import freezing.g2048.game_2048 as g2048
-from freezing.g2048.game_2048 import Game2048
+from freezing.g2048.game_2048 import ACTION_NAMES, NUMBER_OF_ACTIONS, Game2048
 from freezing.g2048.experience_2048 import Experience2048
 
 
@@ -46,7 +45,7 @@ def play(strategy, game=None, allow_unavailable_actions=True, verbose=False):
             is_game_over = game.is_game_over()
 
             if verbose:
-                print('Action: {:s}'.format(g2048.ACTION_NAMES[next_action]))
+                print('Action: {:s}'.format(ACTION_NAMES[next_action]))
                 print('Reward: {:d}'.format(reward))
 
             experiences.append(Experience2048(old_state, next_action, reward, state, is_game_over,
@@ -56,18 +55,18 @@ def play(strategy, game=None, allow_unavailable_actions=True, verbose=False):
                                               is_not_available=True,
                                               next_state_available_actions=game.available_actions()))
 
-        if verbose:
-            print('Score: {:d}'.format(game.score()))
-            print(game.show())
-            print('Game Over.')
+    if verbose:
+        print('Score: {:d}'.format(game.score()))
+        print(game.show())
+        print('Game Over.')
 
-        return game.score(), experiences
+    return game.score(), experiences
 
 
 def __generate_actions(game, allow_unavailable_actions):
     """Returns actions to be passed to the strategy."""
 
     if allow_unavailable_actions:
-        return range(g2048.NUMBER_OF_ACTIONS)
+        return range(NUMBER_OF_ACTIONS)
     else:
         return game.available_actions()
