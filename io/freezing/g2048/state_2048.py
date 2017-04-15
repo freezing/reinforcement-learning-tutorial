@@ -77,9 +77,7 @@ class State2048(object):
             Note: run_action includes some randomness, i.e. after action is executed, random empty field gets
                 a new tile. Tile 2 with probability 0.9 OR Tile 4 with probability 0.1.
         """
-        normalized_tiles = np.copy(self.tiles)
-        for _ in range(0, action):
-            normalized_tiles = State2048.__rotate_left_90(normalized_tiles)
+        normalized_tiles = np.rot90(self.tiles, action)
 
         # Runs the MOVE UP action in place
         State2048.__move_up(normalized_tiles)
@@ -87,45 +85,7 @@ class State2048(object):
         return State2048(tiles=normalized_tiles)
 
     @staticmethod
-    def __rotate_left_90(tiles):
-        """Rotates the square matrix of tiles by 90 degrees counter-clockwise.
-           It doesn't change the tiles in place, it returns new matrix instead.
-           It's immutable.
-        
-           :arg tiles - matrix to rotate, represented as np.array((size, size))
-                
-           :return Copy of the rotated matrix.
-        """
-
-        # Transpose the matrix
-        # Flip rows
-        # The above two actions yield in the rotation by 90 degrees counter-clockwise
-
-        rotated_tiles = np.copy(tiles)
-        size = rotated_tiles.shape[0]
-        assert rotated_tiles.shape[0] == rotated_tiles.shape[1]
-
-        # Transpose
-        for i in range(0, size):
-            for j in range(0, i):
-                tmp = rotated_tiles[i, j]
-                rotated_tiles[i, j] = rotated_tiles[j, i]
-                rotated_tiles[j, i] = tmp
-
-        # Flip rows
-        i = 0
-        j = size - 1
-        while i < j:
-            tmp = rotated_tiles[i]
-            rotated_tiles[i] = rotated_tiles[j]
-            rotated_tiles[j] = tmp
-
-            i += 1
-            j -= 1
-
-        return rotated_tiles
-
-    @staticmethod
     def __move_up(tiles):
+
         return np.copy(tiles)
 
