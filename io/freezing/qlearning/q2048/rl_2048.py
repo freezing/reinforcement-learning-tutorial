@@ -22,7 +22,9 @@ class ReinforcementLearning2048(object):
 
             :arg activation: Default activation function used between all layers, except the output layer.
             :arg output_activation: Activation function used for output layer.
+            :arg input_size: Size of the input layer.
             :arg layers_sizes: List of sizes for fully-connected layers between the input and the output layers.
+            :arg output_size: Size of the output layer.
         """
 
         model = Sequential()
