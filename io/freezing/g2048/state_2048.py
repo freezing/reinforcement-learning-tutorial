@@ -57,17 +57,14 @@ class State2048(object):
         """Reward is the total score of the current state."""
         return self.total_score
 
-    # TODO: Improve performance
     def run_action(self, action):
         """Runs the given action for the current state of the game.
         
             It's implemented by calling rotate matrix by 90 degrees (counter-clockwise / left) # of times per action. 
-            After that, we apply MOVE UP method.
-            Finally, rotate the matrix in the original state, which is (4 - action) % 4 times.
-            
-            Performance can be improved., but it's not priority at the moment.
+            After that, we apply MOVE LEFT method.
+            Finally, rotate the matrix in the original state, by -action.
         
-            :arg action - UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3
+            :arg action - LEFT = 0, UP = 1, RIGHT = 2, DOWN = 3
                 
             :return New game state after applied action.
                 
@@ -76,8 +73,8 @@ class State2048(object):
         """
         normalized_tiles = np.rot90(self.tiles, action)
 
-        # Runs the MOVE UP action in place
-        State2048.__move_up(normalized_tiles)
+        # Runs the MOVE LEFT action in place
+        State2048.__move_left(normalized_tiles)
 
         state = State2048(tiles=normalized_tiles)
         state.__add_random_tile()
@@ -98,7 +95,60 @@ class State2048(object):
         self.tiles[row_positions[empty_index], col_positions[empty_index]] = tile_value
 
     @staticmethod
-    def __move_up(tiles):
+    def __move_left(tiles):
+        """Moves the tiles LEFT.
+        
+          NOTE: It runs in-place so the tiles array will be modified.
+        """
 
-        return np.copy(tiles)
+        row_count = tiles.shape[0]
+
+        for row in range(row_count):
+            State2048.__move_left_row(tiles[row])
+
+        return tiles
+
+    @staticmethod
+    def __move_left_row(tiles_row):
+        """Moves the tiles in a single row to the LEFT.
+            
+           NOTE: It runs in-place so the tiles array will be modified.
+        """
+
+        length = tiles_row.shape[0]
+
+        # Represents the index of the interesting column (that is the column of the tile that can be merged;
+        # or the column of the most left empty field)
+        last_idx = 0
+
+        # NOTE: Starting from 1 (skipping first cell)
+        for col in range(1, length):
+            # Is there anything to move? Skip if not.
+            if tiles_row[col] == 0:
+                continue
+
+            # Can I move the current cell to the left?
+            # There are two cases:
+            #   - last_idx is empty cell, so I just move it there
+            #   - last_idx cell has the same value, so I merge them
+            # In both cases, last_idx cell becomes the next one
+            #
+            # If I can't move it to the last_idx, that means I can't move this cell at all
+            # In that case last_idx == col - 1 (assert that), and it becomes col
+
+            if tiles_row[last_idx] == 0:
+                # Empty - this is the next candidate for marge now, so don't increase last_idx
+                tiles_row[last_idx] = tiles_row[col]
+            elif tiles_row[last_idx] == tiles_row[col]:
+                # Merge them
+                tiles_row[last_idx] += 1
+                tiles_row[col] = 0
+
+                # We don't want to consider this anymore, move to the next cell
+                last_idx += 1
+            else:
+                assert last_idx == col - 1
+                last_idx += 1
+
+
 
