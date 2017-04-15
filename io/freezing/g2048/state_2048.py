@@ -57,6 +57,24 @@ class State2048(object):
         """Reward is the total score of the current state."""
         return self.total_score
 
+    def pretty_print(self):
+        """Returns the human-readable representation of the state"""
+
+        def tile_string(value):
+            """Convert value to string."""
+            if value > 0:
+                return '% 5d'.format(2 ** value)
+            return '     '
+
+        horizontal_line = "-" * 5 * self.width
+        pretty_string = horizontal_line
+
+        for row in range(self.height):
+            row_string = '|%s|'.format('|'.join([tile_string(v) for v in self.tiles[row, :]]))
+            pretty_string += '%s\n'.format(row_string)
+
+        return pretty_string
+
     def run_action(self, action):
         """Runs the given action for the current state of the game.
         
@@ -149,6 +167,5 @@ class State2048(object):
             else:
                 assert last_idx == col - 1
                 last_idx += 1
-
 
 
