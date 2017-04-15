@@ -6,7 +6,7 @@ from freezing.g2048.player_2048 import *
 strategy = min_preference_strategy
 game = Game2048(seed=1234)
 
-play(strategy, game, verbose=True)
+play(strategy, game, verbose=True, allow_unavailable_actions=False)
 
 # print(s.show())
 # print()

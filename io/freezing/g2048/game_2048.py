@@ -45,8 +45,8 @@ class Game2048(object):
 
         if state is None:
             self._state = np.zeros((DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE), dtype=np.int)
-            self.add_random_tile()
-            self.add_random_tile()
+            self.__add_random_tile()
+            self.__add_random_tile()
         else:
             self._state = state
 
@@ -89,9 +89,11 @@ class Game2048(object):
         self._state = np.rot90(temp_state, -action)
         self._score += reward
 
+        self.__add_random_tile()
+
         return reward
 
-    def add_random_tile(self):
+    def __add_random_tile(self):
         """Adds random tile to the grid. Assumes that it has empty field."""
 
         row_positions, col_positions = np.where(self._state == 0)
