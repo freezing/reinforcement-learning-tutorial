@@ -17,8 +17,9 @@ def epsilon_greedy_action(state, qvals, epsilon):
     # should return available actions.
     """Return random action with probability of epsilon, or the best action with probability of (1 - epsilon).
     """
+    actions = state.available_actions()
     if np.random.random() < epsilon:
-        return np.random.randint(0, ACTION_SIZE)
+        return actions[np.random.randint(0, len(actions))]
     else:
         return np.argmax(qvals)
 
@@ -63,7 +64,9 @@ def run_epoch(model, alpha, gamma, epsilon, buffer_size, batch_size):
         action = epsilon_greedy_action(state, q_vals, epsilon)
 
         new_state = state.run_action(action)
-        reward = new_state.reward()
+        reward = new_state.reward() - state.reward()
+        if action not in state.available_actions():
+            reward = 0
 
         if len(replay) < buffer_size:
             replay.append((state, action, reward, new_state))
@@ -99,6 +102,8 @@ def play_new_game(model):
         q_vals = model.predict(game.as_vector, batch_size=1)
         best_action = np.argmax(q_vals)
         game = game.run_action(best_action)
+
+        print_action(best_action)
         print_game(game)
 
     return game.reward()
