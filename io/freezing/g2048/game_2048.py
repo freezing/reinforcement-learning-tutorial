@@ -59,7 +59,8 @@ class Game2048(object):
     def copy(self):
         """Returns a copy of itself."""
 
-        return Game2048(state=self._state, initial_score=self._score)
+        game = Game2048(state=self._state, initial_score=self._score)
+        game._random = self._random.copy()
 
     def is_game_over(self):
         """Returns whether or not the game is over."""
