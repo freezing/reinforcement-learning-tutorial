@@ -95,7 +95,7 @@ class ReinforcementLearning2048(object):
                 # TODO: Should I do it here?
                 # Pick random samples from memory
                 samples = random.sample(memory, batch_size)
-                ReinforcementLearning2048.batch_train(model, strategy, samples, learning_rate, discount_factor)
+                ReinforcementLearning2048.batch_train(model, samples, learning_rate, discount_factor)
 
             epsilon = max(min_epsilon, epsilon - epsilon_decrement)
 
@@ -103,7 +103,7 @@ class ReinforcementLearning2048(object):
 
     @staticmethod
     # TODO: This is where we can use batch prediction
-    def batch_train(model, strategy, experiences_batch, learning_rate, discount_factor):
+    def batch_train(model, experiences_batch, learning_rate, discount_factor):
         # TODO: add allow_unavailable_actions
         """Fit the model with the given experiences_batch, skipping invalid move actions."""
 
