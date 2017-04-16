@@ -1,6 +1,6 @@
 """Reinforcement learning using Q-Learning algorithm for 2048 Game."""
 
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.layers.core import Dense, Activation
 from keras.optimizers import RMSprop
 
@@ -79,7 +79,7 @@ class ReinforcementLearning2048(object):
         for game in game_generator:
             q_values_provider = ReinforcementLearning2048.make_q_values_provider(model)
             strategy = make_epsilon_greedy_strategy(q_values_provider, epsilon)
-            _, experiences = play(strategy, game, verbose=False, allow_unavailable_actions=False)
+            _, experiences = play(strategy, game, verbose=verbose, allow_unavailable_actions=False)
 
             # Add all experiences in the memory
             for exp in experiences:
@@ -187,11 +187,12 @@ class ReinforcementLearning2048(object):
 
 
 def game_generator():
-    for i in range(100):
+    for i in range(10000):
         print("Running simulation: {:d}".format(i))
         yield Game2048()
 
-model = ReinforcementLearning2048.train_model(game_generator())
+model = ReinforcementLearning2048.train_model(game_generator(), verbose=False)
+model.save("/Users/freezing/Projects/reinforcement-learning/resources/model.h5")
 
 game = Game2048(seed=1)
 q_values_provider = ReinforcementLearning2048.make_q_values_provider(model)
