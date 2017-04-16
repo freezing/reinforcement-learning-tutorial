@@ -108,9 +108,15 @@ class ReinforcementLearning2048(object):
         # TODO: add allow_unavailable_actions
         """Fit the model with the given experiences_batch, skipping invalid move actions."""
 
+        state_batch = np.array([exp.state.flatten() for exp in experiences_batch])
+        all_q_vals = model.predict(state_batch, batch_size=len(state_batch))
+
+        new_state_batch = np.array([exp.next_state.flatten() for exp in experiences_batch])
+        new_all_q_vals = model.predict(new_state_batch, batch_size=len(new_state_batch))
+
         X_train = []
         Y_train = []
-        for experience in experiences_batch:
+        for idx, experience in enumerate(experiences_batch):
             if experience.is_not_available:
                 continue
 
@@ -118,8 +124,11 @@ class ReinforcementLearning2048(object):
             if experience.is_game_over:
                 reward = GAME_OVER_REWARD
 
-            q_vals = model.predict(experience.state.reshape(1, INPUT_SIZE), batch_size=1)
-            new_q_vals = model.predict(experience.next_state.reshape(1, INPUT_SIZE), batch_size=1)
+            # q_vals = model.predict(experience.state.reshape(1, INPUT_SIZE), batch_size=1)
+            # new_q_vals = model.predict(experience.next_state.reshape(1, INPUT_SIZE), batch_size=1)
+
+            q_vals = np.array([all_q_vals[idx]])
+            new_q_vals = np.array([new_all_q_vals[idx]])
 
             y = q_vals.copy()
             update = y[0][experience.action]
@@ -192,7 +201,7 @@ class ReinforcementLearning2048(object):
 
 
 def game_generator():
-    for i in range(3000):
+    for i in range(10000):
         print("Running simulation: {:d}".format(i))
         yield Game2048()
 
