@@ -62,6 +62,7 @@ class ReinforcementLearning2048(object):
             :arg start_epsilon: Start probability for the epsilon_greedy_strategy.
             :arg epsilon_decrement: Decrement probability after each epoch.
             :arg min_epsilon: Minimum probability for the epsilon_greedy_strategy.
+            :arg batch_size: Size of the batch data set to use when fitting the model.
             :arg verbose: If True, prints detailed information about training.
 
             :return Trained Neural Network model using Q-Learning algorithm.
@@ -173,11 +174,15 @@ class ReinforcementLearning2048(object):
         model = Sequential()
         # TODO: How to add convolutional layer
 
-        for layer_size in layers_sizes:
-            model.add(Dense(layer_size, kernel_initializer='lecun_uniform', input_shape=(input_size,)))
+        for idx, layer_size in enumerate(layers_sizes):
+            name = "Dense_" + str(idx) + "_" + str(layer_size)
+            model.add(Dense(layer_size, kernel_initializer='lecun_uniform', input_shape=(input_size,), name=name))
+            activation = Activation(activation='relu', name='Activation_Relu_' + str(idx))
             model.add(activation)
 
-        model.add(Dense(output_size, kernel_initializer='lecun_uniform'))
+        output_name = "Dense_output_" + str(output_size)
+        model.add(Dense(output_size, kernel_initializer='lecun_uniform', name=output_name))
+        output_activation = Activation(activation='linear', name='Activation_Output_Linear')
         model.add(output_activation)
 
         rms = RMSprop()
@@ -187,12 +192,14 @@ class ReinforcementLearning2048(object):
 
 
 def game_generator():
-    for i in range(10000):
+    for i in range(3000):
         print("Running simulation: {:d}".format(i))
         yield Game2048()
 
 model = ReinforcementLearning2048.train_model(game_generator(), verbose=False)
 model.save("/Users/freezing/Projects/reinforcement-learning/resources/model.h5")
+# model = load_model("/Users/freezing/Projects/reinforcement-learning/resources/model.h5")
+
 
 game = Game2048(seed=1)
 q_values_provider = ReinforcementLearning2048.make_q_values_provider(model)
