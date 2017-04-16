@@ -94,7 +94,7 @@ class ReinforcementLearning2048(object):
 
                 # TODO: Should I do it here?
                 # Pick random samples from memory
-                samples = random.sample(memory, batch_size)
+                samples = random.sample(memory, min(len(memory), batch_size))
                 ReinforcementLearning2048.batch_train(model, samples, learning_rate, discount_factor)
 
             epsilon = max(min_epsilon, epsilon - epsilon_decrement)
@@ -117,22 +117,22 @@ class ReinforcementLearning2048(object):
             if experience.is_game_over:
                 reward = GAME_OVER_REWARD
 
-            q_vals = model.predict(experience.state.flatten(), batch_size=1)
-            new_q_vals = model.predict(experience.new_state.flatten(), batch_size=1)
-
-            sorted_actions = np.argsort(new_q_vals)
-            action = [a for a in sorted_actions if a in experience.next_state_available_actions][-1]
-            new_max_q = new_q_vals[action]
+            q_vals = model.predict(experience.state.reshape(1, INPUT_SIZE), batch_size=1)
+            new_q_vals = model.predict(experience.next_state.reshape(1, INPUT_SIZE), batch_size=1)
 
             y = q_vals.copy()
-            update = y[0][action]
+            update = y[0][experience.action]
 
             if not experience.is_game_over:
+                sorted_actions = np.argsort(new_q_vals[0])
+                next_action = [a for a in sorted_actions if a in experience.next_state_available_actions][-1]
+                new_max_q = new_q_vals[0][next_action]
+
                 update += learning_rate * (reward + discount_factor * new_max_q - update)
             else:
                 update = reward
 
-            y[0][action] = update
+            y[0][experience.action] = update
             X_train.append(experience.state.flatten())
             Y_train.append(y.flatten())
 
@@ -154,8 +154,8 @@ class ReinforcementLearning2048(object):
                 :arg state: A state to calculate Q-values for.
             """
 
-            state_vector = state.flatten()
-            return model.predict(np.array(state_vector), batch_size=1)
+            q_values = model.predict(state.reshape(1, INPUT_SIZE), batch_size=1)
+            return q_values[0]
 
         return q_values_provider
 
@@ -186,4 +186,14 @@ class ReinforcementLearning2048(object):
         return model
 
 
+def game_generator():
+    for i in range(100):
+        print("Running simulation: {:d}".format(i))
+        yield Game2048()
 
+model = ReinforcementLearning2048.train_model(game_generator())
+
+game = Game2048(seed=1)
+q_values_provider = ReinforcementLearning2048.make_q_values_provider(model)
+strategy = make_greedy_strategy(q_values_provider)
+score, experiences = play(strategy, game, verbose=True, allow_unavailable_actions=False)
